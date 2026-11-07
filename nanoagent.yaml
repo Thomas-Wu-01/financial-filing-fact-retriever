@@ -1,0 +1,33 @@
+_ > nanoagent.plugin.v0001.ManifestConfig:
+id: financial-filing-fact-retriever
+name: Financial Filing Fact Retriever
+version: 0.1.0
+status: ready
+spec: nanoagent.plugin/v0001
+
+runtime > nanoagent.plugin.v0001.RuntimeConfig:
+  type: mcp_stdio
+  command: [uv, run, --frozen, python, -m, plugin]
+
+permissions > nanoagent.plugin.v0001.PermissionsConfig:
+  network > nanoagent.plugin.v0001.NetworkConfig:
+    hosts: []
+  filesystem > nanoagent.plugin.v0001.FilesystemConfig:
+    write: []
+
+tools > dict[contract.Tool, nanoagent.plugin.v0001.ToolConfig]:
+  list_filings:
+    description: List synthetic filing sources for an exact company, or all sources, without financial values
+  read_filing:
+    description: Read one complete synthetic filing excerpt by its listed source ID
+
+tasks > dict[contract.Task, nanoagent.plugin.v0001.TaskConfig]:
+  retrieve-fact:
+    description: Retrieve one exact financial fact from the closed synthetic filing corpus
+    runner: agent
+    tools: [list_filings, read_filing]
+    reference: null
+    instructions: |-
+      Find the record whose company, period, scope, and metric exactly and case-sensitively match the task input. Use list_filings to discover candidate source IDs and read_filing to inspect evidence.
+      If the exact record exists, submit status found, the value and unit exactly as printed (preserving signs, zeros, and decimal formatting), and that record's source_id. Do not calculate, convert units, round, restate, or substitute an annual, quarterly, consolidated, segment, company, period, scope, or metric match.
+      If no exact record exists in the complete corpus, submit status not_available and empty strings for value, unit, and source_id.

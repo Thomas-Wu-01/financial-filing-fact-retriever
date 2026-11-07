@@ -1,0 +1,11 @@
+_ > nanoagent.plugin.v0001.ProductConfig:
+tagline: "Retrieve one exact fact from a synthetic financial filing corpus"
+summary: "A deterministic NanoAgent challenge for finding an exact company, period, scope, and metric match in fictional filing-style excerpts. It rewards faithful evidence retrieval and exact citation without financial calculations."
+highlights:
+  - "Closed, reproducible corpus of 29 explicitly synthetic records"
+  - "Annual, quarterly, consolidated, and segment distractors"
+  - "Deterministic verification of exact values, units, and citations"
+steps:
+  - "Provide the exact company, fiscal period, scope, and metric"
+  - "Let the agent list candidate sources and read the supporting excerpt"
+  - "Receive an exact found result or a strictly empty not-available result"
